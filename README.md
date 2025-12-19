@@ -113,3 +113,4 @@ MIT License - See [LICENSE](LICENSE) for details.
 
 These skills are derived from the [cursor-engineering-rules](https://github.com/d-padmanabhan/cursor-engineering-rules/tree/main) project, adapted for the Anthropic Agent Skills format.
 
+Big shout out to Devesh Padmanabhan who made the original cursor engineering rules files.
