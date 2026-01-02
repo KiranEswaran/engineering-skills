@@ -22,12 +22,14 @@ If (and only if) the user explicitly authorizes a specific remote write, the age
 
 ## 2. Local Branch Discipline
 
-All work MUST be performed on a **new local branch**.
+All work MUST be performed on the **current branch**.
 
 Requirements:
-- Propose a branch name first
-- Create the branch locally and make all changes there
-- Keep `main` untouched; do not fast-forward or rewrite shared history
+- Record the baseline branch name and `HEAD` SHA in the audit report
+- Create a local backup branch before making changes:
+  - `DTTM="$(date +%Y%m%d_%H%M%S)"`
+  - `git branch "checkout-point/${DTTM}" HEAD`
+- Do not fast-forward, rebase, or otherwise rewrite shared history unless explicitly authorized
 
 ## 3. Backups & Checkpoints (Mandatory)
 
@@ -36,7 +38,7 @@ Before making changes, create **identifiable, reversible checkpoints**:
 **Minimum checkpoints:**
 - **Baseline identifier:** Record `HEAD` SHA and current branch name
 - **Working tree backup:** Create stash with untracked files: `git stash push -u -m "checkpoint/<id>"`
-- **Rollback anchor:** Create local checkpoint: `git branch "checkpoint/<id>" <baseline-sha>`
+- **Rollback anchor:** Create local checkpoint: `git branch "checkout-point/<id>" <baseline-sha>`
 
 **Checkpoint rules:**
 - Each checkpoint MUST have a unique `<id>` (recommend `YYYYMMDD_HHMMSS`)
