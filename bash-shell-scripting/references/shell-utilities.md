@@ -742,3 +742,13 @@ When the goal is "read AWS, Cloudflare, Kubernetes docs reliably at scale", pref
 - Include source URLs
 - Verify documentation versions
 - Update indexes regularly
+
+---
+
+## Resources
+
+- [awesome-tuis](https://github.com/rothgar/awesome-tuis) - Curated list of TUI applications for terminal productivity (dashboards, file managers, git tools, database clients, etc.)
+- [zoxide](https://github.com/ajeetdsouza/zoxide) - Smarter cd command that learns your habits
+- [tmux](https://github.com/tmux/tmux) - Terminal multiplexer for persistent sessions
+- [gh](https://cli.github.com/) - GitHub CLI for issues, PRs, and repo management
+- [stow](https://www.gnu.org/software/stow/) - Symlink farm manager (great for dotfiles)

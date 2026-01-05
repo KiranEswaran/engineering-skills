@@ -227,6 +227,7 @@ project/
 - **`gofmt -s`**: Required ("Gofmt's style is no one's favorite, yet gofmt is everyone's favorite")
 - **Imports**: Group as stdlib | third-party | internal
 - **Exported**: PascalCase; unexported: camelCase
+- **Doc comments (required for exported items)**: A `//` comment immediately preceding the declaration that **starts with the exported identifier name**, so `go doc` / `godoc` associates it correctly
 - **Acronyms**: Uppercase (`HTTPServer`, `UserID`)
 - **Interfaces**: `-er` suffix (`Reader`, `Hasher`) - keep interfaces small ("The bigger the interface, the weaker the abstraction")
 - **Package names**: Lowercase, single-word, concise (`bytes`, `ring`, not `bytesPackage` or `ringPackage`)
@@ -235,6 +236,12 @@ project/
 ```go
 //  GOOD: Package name is concise
 package user  // Not userPackage or userManagement
+
+// FetchIdentity retrieves the current AWS caller identity using STS.
+// It returns an error if the request fails.
+func FetchIdentity(ctx context.Context, client *sts.Client) (*sts.GetCallerIdentityOutput, error) {
+    // ...
+}
 
 //  GOOD: Exported type uses package name context
 type User struct {  // Users see it as user.User

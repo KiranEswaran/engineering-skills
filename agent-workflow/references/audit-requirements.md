@@ -76,6 +76,34 @@ For every non-trivial task, write one report file:
 - Checkpoints/backups section with timestamps
 - Any authorized remote-write operations
 
+### Optional: Terminal Recordings (asciinema)
+
+For complex debugging sessions or demos, agents MAY create terminal recordings using `asciinema`.
+
+**When to record:**
+- Complex debugging where timing/flow matters
+- Sessions that would benefit from visual playback
+- When user explicitly requests a recording
+
+**Recording path:**
+- Save to: `extras/agent_reports/recordings/<repo>_<branch>_<yyyymmdd_HHMMSS>.cast`
+- Reference the recording path in the markdown audit report
+
+**How to record:**
+```bash
+# Start recording
+asciinema rec -q extras/agent_reports/recordings/session.cast
+
+# ... perform commands ...
+
+# Stop recording (Ctrl+D or exit)
+```
+
+**Important:**
+- Recordings are a **supplement**, not a replacement for markdown reports
+- The markdown report remains the **primary audit artifact** (searchable, structured)
+- Recordings are for **understanding flow**, not for audit compliance
+
 ## 6. GitHub CLI Read-Only Mode
 
 **Allowed:**
