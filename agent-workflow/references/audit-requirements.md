@@ -22,12 +22,14 @@ If (and only if) the user explicitly authorizes a specific remote write, the age
 
 ## 2. Local Branch Discipline
 
-All work MUST be performed on a **new local branch**.
+All work MUST be performed on the **current branch**.
 
 Requirements:
-- Propose a branch name first
-- Create the branch locally and make all changes there
-- Keep `main` untouched; do not fast-forward or rewrite shared history
+- Record the baseline branch name and `HEAD` SHA in the audit report
+- Create a local backup branch before making changes:
+  - `DTTM="$(date +%Y%m%d_%H%M%S)"`
+  - `git branch "checkout-point/${DTTM}" HEAD`
+- Do not fast-forward, rebase, or otherwise rewrite shared history unless explicitly authorized
 
 ## 3. Backups & Checkpoints (Mandatory)
 
@@ -36,7 +38,7 @@ Before making changes, create **identifiable, reversible checkpoints**:
 **Minimum checkpoints:**
 - **Baseline identifier:** Record `HEAD` SHA and current branch name
 - **Working tree backup:** Create stash with untracked files: `git stash push -u -m "checkpoint/<id>"`
-- **Rollback anchor:** Create local checkpoint: `git branch "checkpoint/<id>" <baseline-sha>`
+- **Rollback anchor:** Create local checkpoint: `git branch "checkout-point/<id>" <baseline-sha>`
 
 **Checkpoint rules:**
 - Each checkpoint MUST have a unique `<id>` (recommend `YYYYMMDD_HHMMSS`)
@@ -73,6 +75,34 @@ For every non-trivial task, write one report file:
 - Proposed commit messages
 - Checkpoints/backups section with timestamps
 - Any authorized remote-write operations
+
+### Optional: Terminal Recordings (asciinema)
+
+For complex debugging sessions or demos, agents MAY create terminal recordings using `asciinema`.
+
+**When to record:**
+- Complex debugging where timing/flow matters
+- Sessions that would benefit from visual playback
+- When user explicitly requests a recording
+
+**Recording path:**
+- Save to: `extras/agent_reports/recordings/<repo>_<branch>_<yyyymmdd_HHMMSS>.cast`
+- Reference the recording path in the markdown audit report
+
+**How to record:**
+```bash
+# Start recording
+asciinema rec -q extras/agent_reports/recordings/session.cast
+
+# ... perform commands ...
+
+# Stop recording (Ctrl+D or exit)
+```
+
+**Important:**
+- Recordings are a **supplement**, not a replacement for markdown reports
+- The markdown report remains the **primary audit artifact** (searchable, structured)
+- Recordings are for **understanding flow**, not for audit compliance
 
 ## 6. GitHub CLI Read-Only Mode
 

@@ -130,3 +130,11 @@ Every repo must contain:
 - [ ] Dependabot and automation enabled
 - [ ] No secrets or credentials in history
 
+## Additional Git Resources
+
+For comprehensive Git guidance, see:
+- [git-fundamentals.md](git-fundamentals.md) - Refs, three-tier model, fetch vs pull, feature branch workflow
+- [git-reflog.md](git-reflog.md) - Reflog patterns, recovery workflows, Git's safety net
+- [git-modern-commands.md](git-modern-commands.md) - Modern Git commands (switch, restore, mv), worktrees
+- [git-pre-commit.md](git-pre-commit.md) - Pre-commit hooks setup and configuration
+

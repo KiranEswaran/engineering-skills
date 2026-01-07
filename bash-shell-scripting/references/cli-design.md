@@ -94,6 +94,55 @@ parse_args() {
 }
 ```
 
+## Variable Declaration: `local`, `declare`/`typeset`, `readonly`, `export`
+
+**Goal:** Use the right primitive for scope, attributes, and intent without sacrificing portability.
+
+**Guidelines:**
+
+* **Scope**
+  * Use `local` **inside functions** for locals.
+  * At top-level, simple assignments create globals.
+
+* **Attributes (Bash/ksh/zsh only)**
+  * Use `declare` **or** `typeset` to add attributes:
+    * `-i` integer, `-a` array, `-A` assoc array, `-l` lower, `-u` upper, `-r` readonly, `-x` export, `-g` global (bash/zsh).
+  * In **bash**, `typeset` ≈ `declare`. Prefer `declare` for clarity in bash; use `typeset` if targeting ksh/zsh too.
+
+* **Intent**
+  * Use **`readonly`** for constants.
+  * Use **`export`** only if a child process needs the value.
+
+* **Portability**
+  * `typeset`/`declare` are **not POSIX**. For `/bin/sh` portability, avoid them (and arrays) and stick to plain assignments + `export`/`readonly`.
+
+**Examples:**
+
+```bash
+# Top-level constants & environment
+readonly SCRIPT_NAME="$(basename "$0" .sh)"
+readonly DEFAULT_TIMEOUT=60
+export PATH="/usr/local/bin:$PATH"   # Export only when needed by children
+
+# Function locals with attributes (bash)
+do_work() {
+  local -i retries=0 max=5
+  local -A meta=()                  # bash 4+
+  local -a files=()
+  local -l env="${ENVIRONMENT:-dev}"  # always-lowercased on assignment
+}
+
+# Same using declare/typeset
+do_work2() {
+  declare -i retries=0 max=5
+  declare -A meta=()
+  typeset -a files=()
+}
+
+# Make a global from inside a function (rare):
+set_flag() { declare -g BUILD_FLAG=1; }
+```
+
 ## Output Formatting
 
 ```bash

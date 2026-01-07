@@ -175,5 +175,14 @@ fn process_user(id: &str) -> anyhow::Result<User> {
 ## Detailed References
 
 - **Go Patterns**: See [references/go-patterns.md](references/go-patterns.md) for concurrency, interfaces, testing
+- **Go Idioms**: See [references/go-idioms.md](references/go-idioms.md) for Go Proverbs, zero value, dependency management, naming, project layout
+- **Go Testing**: See [references/go-testing.md](references/go-testing.md) for table-driven tests, fuzz testing, mocking, integration tests, benchmarks
+- **Go Troubleshooting**: See [references/go-troubleshooting.md](references/go-troubleshooting.md) for debug logging, Delve, profiling, common errors
+- **Go Performance**: See [references/go-performance.md](references/go-performance.md) for evidence-based optimization, profiling, memory management
+- **Go AWS Integration**: See [references/go-aws-integration.md](references/go-aws-integration.md) for AWS SDK v2, Lambda patterns, error handling
+- **Go CLI Development**: See [references/go-cli-development.md](references/go-cli-development.md) for cobra, urfave/cli, CLI best practices
+- **Go Design Patterns**: See [references/go-design-patterns.md](references/go-design-patterns.md) for factory, strategy, observer patterns
+- **Go Generics**: See [references/go-generics.md](references/go-generics.md) for generic functions, types, constraints, interfaces
+- **Go Deployment**: See [references/go-deployment.md](references/go-deployment.md) for building binaries, Docker, CI/CD, version management
 - **Rust Patterns**: See [references/rust-patterns.md](references/rust-patterns.md) for ownership, lifetimes, async
 

@@ -25,6 +25,7 @@ For more information, see [Anthropic's Agent Skills documentation](https://platf
 | **security-testing** | OWASP Top 10, testing strategies, API design |
 | **documentation-standards** | Markdown, Mermaid diagrams, technical writing |
 | **mcp-development** | MCP server patterns and AI/ML integration |
+| **database-postgresql** | PostgreSQL schema design, migrations, performance, security |
 
 ## Installation
 
@@ -113,4 +114,4 @@ MIT License - See [LICENSE](LICENSE) for details.
 
 These skills are derived from the [cursor-engineering-rules](https://github.com/d-padmanabhan/cursor-engineering-rules/tree/main) project, adapted for the Anthropic Agent Skills format.
 
-Big shout out to Devesh Padmanabhan who made the original cursor engineering rules files.
+Big shout out to [@d-padmanabhan](https://github.com/d-padmanabhan) who made the original cursor engineering rules files.

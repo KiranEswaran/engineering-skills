@@ -22,3 +22,10 @@ __pycache__/
 *.tmp
 *.bak
 
+# Private/local documentation
+extras/
+**/extras/
+
+# Cursor IDE (local-only)
+.cursorrules
+

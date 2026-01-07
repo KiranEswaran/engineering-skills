@@ -199,3 +199,87 @@ steps:
     run: echo "Previous step failed"
 ```
 
+## Common Anti-Patterns
+
+### Hardcoding Runner OS Commands
+
+```yaml
+# ❌ Fragile - Breaks on Windows/macOS
+- run: rm -rf dist/
+
+# ✅ Portable - Use actions or shell-agnostic commands
+- run: |
+    if [ -d dist ]; then rm -rf dist; fi
+  shell: bash
+```
+
+### Not Cleaning Up Artifacts
+
+```yaml
+# ❌ Artifacts kept for 90 days (GitHub default)
+- uses: actions/upload-artifact@v4
+  with:
+    name: logs
+
+# ✅ Set appropriate retention
+- uses: actions/upload-artifact@v4
+  with:
+    name: logs
+    retention-days: 7  # Adjust based on needs
+```
+
+### Missing Timeout Protection
+
+```yaml
+# ❌ Can run for 6 hours (GitHub default)
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+# ✅ Set reasonable timeout
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+```
+
+## Dynamic Input Choices
+
+Use `workflow_dispatch` with choice inputs for better UX:
+
+```yaml
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target environment'
+        type: choice
+        options:
+          - development
+          - staging
+          - production
+      log-level:
+        description: 'Log level'
+        type: choice
+        options:
+          - debug
+          - info
+          - warning
+          - error
+        default: 'info'
+      dry-run:
+        description: 'Dry run mode'
+        type: boolean
+        default: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy
+        run: |
+          echo "Deploying to ${{ inputs.environment }}"
+          echo "Log level: ${{ inputs.log-level }}"
+          echo "Dry run: ${{ inputs.dry-run }}"
+```
+

@@ -119,6 +119,225 @@ Required Creative Phases:
 - Windows: Use `dir`, `type`, backslash paths
 - macOS/Linux: Use `ls`, `cat`, forward slash paths
 
+## Context Management Templates
+
+Use these templates to maintain persistent context across sessions. Create files in `extras/` directory.
+
+### tasks.md Template
+
+```markdown
+# Tasks & Planning
+
+## Current Task
+- **Status:** Not Started
+- **Description:**
+- **Complexity:** TBD (1-4)
+- **Files Affected:**
+- **Plan:**
+- **Progress:**
+- **Notes:**
+
+## Task History
+
+### Completed Tasks
+-
+
+### In Progress
+-
+
+### Planned
+-
+
+---
+
+## Complexity Levels Reference
+
+- **Level 1:** Simple fixes (typos, single-line changes)
+- **Level 2:** Single feature/module changes
+- **Level 3:** Multi-module changes, significant features
+- **Level 4:** Architectural changes, major refactoring
+
+---
+
+## Notes
+[Any project-specific notes or context]
+```
+
+### active-context.md Template
+
+```markdown
+# Active Context
+
+## Current Phase
+Not Started
+
+**Phases:**
+- Planning: Designing solution, waiting for approval
+- Implementing: Actively coding
+- Reviewing: Reviewing completed work
+- Complete: Task finished
+
+## Current Focus
+[What we're working on right now]
+
+## Key Decisions
+- [Decision]: [Rationale]
+
+## Blockers/Issues
+- [Issue]: [Status/Resolution]
+
+## Context from Previous Sessions
+[Any important context that needs to be remembered]
+```
+
+### progress.md Template
+
+```markdown
+# Progress Tracking
+
+## Completed
+- [Task]: [Date] - [Brief summary]
+
+## In Progress
+- [Current task]: [Status update]
+
+## Next Steps
+- [Next task 1]
+- [Next task 2]
+
+## Blocked/Waiting
+- [Blocked task]: [Reason]
+
+---
+
+## Metrics (Optional)
+- Tasks completed this week:
+- Average task duration:
+- Current velocity:
+```
+
+### project-brief.md Template
+
+```markdown
+# Project Brief
+
+## Purpose
+[What this project does, its main goal]
+
+## Tech Stack
+- **Languages:**
+- **Frameworks:**
+- **Infrastructure:**
+- **Tools:**
+
+## Architecture Overview
+[High-level architecture description]
+
+## Key Patterns & Conventions
+- [Pattern 1]: [Description]
+- [Pattern 2]: [Description]
+
+## Important Notes
+- [Note 1]
+- [Note 2]
+
+## Team/Contact
+- [Team members or contact info]
+
+## Related Documentation
+- [Links to other docs]
+```
+
+### creative-template.md Template
+
+```markdown
+# Creative: [Component/Feature Name]
+
+**Date:** [Date]
+**Task:** [Related task reference]
+
+## Design Challenge
+[What design decision needs to be made]
+
+## Options Considered
+
+| Option | Pros | Cons | Complexity | Decision |
+|--------|------|------|------------|----------|
+| Option A | ... | ... | Low/Med/High | ✅ Chosen / ❌ Rejected |
+| Option B | ... | ... | Low/Med/High | ✅ Chosen / ❌ Rejected |
+| Option C | ... | ... | Low/Med/High | ✅ Chosen / ❌ Rejected |
+
+## Rationale
+[Why the chosen option was selected]
+
+## Trade-offs Accepted
+- [Trade-off 1]: [Why it's acceptable]
+- [Trade-off 2]: [Why it's acceptable]
+
+## Implementation Notes
+[Key considerations for implementing the chosen option]
+
+## References
+- [Link to relevant docs/patterns]
+- [Related decisions]
+```
+
+### reflect-template.md Template
+
+```markdown
+# Review: [Task Name]
+
+**Date:** [Date]
+**Task:** [Reference to original task]
+
+## What Was Done
+[Summary of what was implemented]
+
+## Changes Made
+- [Change 1]: [Description]
+- [Change 2]: [Description]
+
+## Lessons Learned
+- [Lesson 1]: [What we learned]
+- [Lesson 2]: [What we learned]
+
+## What Went Well
+- [Success 1]
+- [Success 2]
+
+## Challenges Encountered
+- [Challenge 1]: [How it was resolved]
+- [Challenge 2]: [How it was resolved]
+
+## Improvements for Next Time
+- [Improvement 1]: [Why it would help]
+- [Improvement 2]: [Why it would help]
+
+## Code Quality Notes
+- [Quality observation 1]
+- [Quality observation 2]
+
+## Security Considerations
+- [Security note 1]
+- [Security note 2]
+
+## Performance Impact
+- [Performance note 1]
+- [Performance note 2]
+
+## Follow-up Actions
+- [ ] [Action item 1]
+- [ ] [Action item 2]
+```
+
+## Template Usage Guidelines
+
+1. **Create templates in `extras/` directory** - Keep them workspace-specific
+2. **Copy templates when starting new work** - Don't modify originals
+3. **Update templates as you progress** - Keep them current
+4. **Archive completed work** - Move to `extras/archive/` when done
+5. **Use consistent naming** - `tasks.md`, `active-context.md`, `progress.md`, `creative-<feature>.md`, `reflect-<task>.md`
+
 ## Common Workflow Violations
 
 ### Violation 1: Starting Without Planning

@@ -179,8 +179,19 @@ class User(BaseModel):
 
 ## Detailed References
 
+- **Code Quality Tools**: See [references/code-quality-tools.md](references/code-quality-tools.md) for black, ruff, isort, mypy, pylint configuration
+- **Package Management**: See [references/package-management.md](references/package-management.md) for uv, isort, dependency management
+- **Standard Library**: See [references/standard-library.md](references/standard-library.md) for pathlib, textwrap, contextlib, dataclasses, enum, typing, secrets, heapq, graphlib
+- **Logging & Observability**: See [references/logging-observability.md](references/logging-observability.md) for logger setup, structured logging, log levels
+- **Security & Validation**: See [references/security-validation.md](references/security-validation.md) for bandit, input validation, Pydantic, regex patterns
+- **Error Handling**: See [references/error-handling.md](references/error-handling.md) for exception handling, retry patterns, custom exceptions
+- **Performance Optimization**: See [references/performance-optimization.md](references/performance-optimization.md) for profiling, optimization examples, concurrency guide
+- **Troubleshooting & Debugging**: See [references/troubleshooting-debugging.md](references/troubleshooting-debugging.md) for pdb, profiling, common issues
+- **Design Patterns**: See [references/design-patterns.md](references/design-patterns.md) for decorator, factory, singleton, strategy patterns
+- **CLI & User Experience**: See [references/cli-user-experience.md](references/cli-user-experience.md) for argparse, typer, rich, UX best practices
 - **Modern Python Features**: See [references/modern-python.md](references/modern-python.md) for match-case, walrus operator, dataclasses, functional patterns
 - **Async & Concurrency**: See [references/async-concurrency.md](references/async-concurrency.md) for asyncio, threading, multiprocessing
 - **Testing Patterns**: See [references/testing-patterns.md](references/testing-patterns.md) for pytest, mocking, fixtures
 - **AWS Lambda**: See [references/aws-lambda.md](references/aws-lambda.md) for boto3 patterns, Lambda best practices
+- **AWS & Boto3**: See [references/aws-boto3.md](references/aws-boto3.md) for client configuration, error handling, pagination, Lambda patterns
 

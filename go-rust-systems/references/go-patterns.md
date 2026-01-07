@@ -30,6 +30,13 @@ result, err := fetchData(ctx)
 
 ## Concurrency
 
+**Proverbs**:
+- "Don't communicate by sharing memory, share memory by communicating"
+- "Channels orchestrate; mutexes serialize"
+- "Concurrency is not parallelism"
+
+### Basic Patterns
+
 ```go
 // WaitGroup for goroutine coordination
 var wg sync.WaitGroup
@@ -47,6 +54,224 @@ type SafeCounter struct {
     mu    sync.RWMutex
     count map[string]int
 }
+
+func (c *SafeCounter) Increment(key string) {
+    c.mu.Lock()
+    defer c.mu.Unlock()
+    c.count[key]++
+}
+```
+
+### Advanced Concurrency Patterns
+
+**Worker Pool Pattern:**
+
+```go
+func ProcessWithWorkerPool(ctx context.Context, jobs []Job, numWorkers int) ([]Result, error) {
+    jobChan := make(chan Job, len(jobs))
+    resultChan := make(chan Result, len(jobs))
+
+    // Start workers
+    var wg sync.WaitGroup
+    for i := 0; i < numWorkers; i++ {
+        wg.Add(1)
+        go func() {
+            defer wg.Done()
+            for job := range jobChan {
+                select {
+                case <-ctx.Done():
+                    return
+                default:
+                    result := processJob(job)
+                    resultChan <- result
+                }
+            }
+        }()
+    }
+
+    // Send jobs
+    go func() {
+        defer close(jobChan)
+        for _, job := range jobs {
+            select {
+            case <-ctx.Done():
+                return
+            case jobChan <- job:
+            }
+        }
+    }()
+
+    // Wait for workers and close results
+    go func() {
+        wg.Wait()
+        close(resultChan)
+    }()
+
+    // Collect results
+    var results []Result
+    for result := range resultChan {
+        results = append(results, result)
+    }
+
+    return results, nil
+}
+```
+
+**Pipeline Pattern:**
+
+```go
+func ProcessPipeline(ctx context.Context, input <-chan Item) <-chan Result {
+    stage1 := transformStage(ctx, input)
+    stage2 := filterStage(ctx, stage1)
+    stage3 := aggregateStage(ctx, stage2)
+    return stage3
+}
+
+func transformStage(ctx context.Context, input <-chan Item) <-chan Transformed {
+    output := make(chan Transformed)
+    go func() {
+        defer close(output)
+        for item := range input {
+            select {
+            case <-ctx.Done():
+                return
+            case output <- transform(item):
+            }
+        }
+    }()
+    return output
+}
+```
+
+**Semaphore Pattern:**
+
+```go
+type Semaphore struct {
+    ch chan struct{}
+}
+
+func NewSemaphore(limit int) *Semaphore {
+    return &Semaphore{
+        ch: make(chan struct{}, limit),
+    }
+}
+
+func (s *Semaphore) Acquire(ctx context.Context) error {
+    select {
+    case s.ch <- struct{}{}:
+        return nil
+    case <-ctx.Done():
+        return ctx.Err()
+    }
+}
+
+func (s *Semaphore) Release() {
+    <-s.ch
+}
+
+// Usage
+sem := NewSemaphore(10) // Max 10 concurrent operations
+for _, item := range items {
+    if err := sem.Acquire(ctx); err != nil {
+        return err
+    }
+    go func(item Item) {
+        defer sem.Release()
+        process(item)
+    }(item)
+}
+```
+
+**Timeout Pattern:**
+
+```go
+func ProcessWithTimeout(ctx context.Context, duration time.Duration, fn func() error) error {
+    ctx, cancel := context.WithTimeout(ctx, duration)
+    defer cancel()
+
+    done := make(chan error, 1)
+    go func() {
+        done <- fn()
+    }()
+
+    select {
+    case err := <-done:
+        return err
+    case <-ctx.Done():
+        return fmt.Errorf("operation timed out: %w", ctx.Err())
+    }
+}
+```
+
+**Bounded Channel Pattern:**
+
+```go
+func ProcessWithBackpressure(ctx context.Context, items []Item, bufferSize int) error {
+    // Bounded channel prevents unbounded memory growth
+    itemChan := make(chan Item, bufferSize)
+
+    go func() {
+        defer close(itemChan)
+        for _, item := range items {
+            select {
+            case <-ctx.Done():
+                return
+            case itemChan <- item:
+            }
+        }
+    }()
+
+    for item := range itemChan {
+        if err := process(item); err != nil {
+            return err
+        }
+    }
+    return nil
+}
+```
+
+### Choose the Simplest Correct Primitive
+
+**Rule**: Use channels for coordination/orchestration, mutexes for mutual exclusion.
+
+```go
+//  GOOD: Mutex for protecting shared state (serialization)
+type SafeCounter struct {
+    mu    sync.Mutex
+    count int
+}
+
+func (c *SafeCounter) Increment() {
+    c.mu.Lock()
+    defer c.mu.Unlock()  // Always use defer
+    c.count++
+}
+
+//  GOOD: Channel for communication/orchestration
+func worker(jobs <-chan Job, results chan<- Result) {
+    for job := range jobs {
+        results <- process(job)
+    }
+}
+
+//  GOOD: Channel for coordination (orchestration)
+func processWithCoordination(ctx context.Context, items []Item) error {
+    done := make(chan error, 1)
+    go func() {
+        // Process items
+        done <- nil
+    }()
+
+    select {
+    case err := <-done:
+        return err
+    case <-ctx.Done():
+        return ctx.Err()
+    }
+}
+
+//  BAD: Using channel for simple mutual exclusion
+type Counter struct {
 
 func (c *SafeCounter) Inc(key string) {
     c.mu.Lock()
